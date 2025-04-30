@@ -416,11 +416,12 @@ function Home() {
         </div>
       </motion.section>
 
-      {/* Integration Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Integration Section - Redesigned */}
+      <section className="py-20 bg-gradient-to-br from-cyan-50 via-white to-cyan-100 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400/30 via-cyan-200/10 to-cyan-400/30"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-cyan-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-cyan-900 mb-4 drop-shadow-sm">
               Seamless Integration with Your Existing Tools
             </h2>
             <p className="text-xl text-cyan-600 max-w-3xl mx-auto">
@@ -429,13 +430,19 @@ function Home() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-              <div key={item} className="flex flex-col items-center p-6 bg-gray-50 rounded-lg">
-                <img 
-                  src={`https://placehold.co/80x80/e2e8f0/64748b?text=Tool+${item}`}
-                  alt={`Integration ${item}`}
-                  className="w-16 h-16 mb-4"
-                />
-                <h3 className="text-cyan-900 font-semibold">Integration {item}</h3>
+              <div
+                key={item}
+                className="flex flex-col items-center p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group border border-cyan-100 hover:border-cyan-300 cursor-pointer"
+              >
+                <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-gradient-to-br from-cyan-100 to-cyan-200 group-hover:from-cyan-200 group-hover:to-cyan-300 shadow-inner transition-all duration-300">
+                  <img
+                    src={`https://placehold.co/48x48/bae6fd/0891b2?text=T${item}`}
+                    alt={`Integration ${item}`}
+                    className="w-10 h-10 object-contain"
+                  />
+                </div>
+                <h3 className="text-cyan-900 font-bold text-lg mb-1 group-hover:text-cyan-700 transition-all duration-200">Integration {item}</h3>
+                <span className="text-cyan-400 text-xs tracking-wide">Connect & Automate</span>
               </div>
             ))}
           </div>
