@@ -1,39 +1,124 @@
 import React from 'react';
-import { FaRobot, FaUserFriends, FaSyncAlt, FaLock, FaChartBar, FaPlug, FaHeadset, FaCreditCard } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const features = [
-  { icon: <FaRobot />, title: 'AI Website Builder', desc: 'Launch a beautiful, conversion-optimized website in minutes with AI.' },
-  { icon: <FaUserFriends />, title: 'Lead Management', desc: 'Capture, organize, and nurture patient leads with ease.' },
-  { icon: <FaSyncAlt />, title: 'Automated Follow-ups', desc: 'Never miss a patient. Automated reminders and follow-ups built in.' },
-  { icon: <FaCreditCard />, title: 'Secure Payments', desc: 'Accept payments securely and manage billing with confidence.' },
-  { icon: <FaChartBar />, title: 'Analytics', desc: 'Track performance, patient engagement, and growth with real-time analytics.' },
-  { icon: <FaPlug />, title: 'Integrations', desc: 'Connect with hospital systems, CRMs, and more.' },
-  { icon: <FaHeadset />, title: '24/7 Support', desc: 'Get help anytime with our dedicated support team.' },
-  { icon: <FaLock />, title: 'Privacy & Security', desc: 'HIPAA-compliant, privacy-first platform for peace of mind.' },
+  {
+    title: 'Custom AI-Powered Website',
+    desc: 'Intelligent, responsive websites tailored to healthcare providers with automated patient interactions.',
+    benefits: ['24/7 Patient Interaction', 'Smart Appointment Scheduling', 'Automated Follow-ups'],
+    detailedDescription: 'Our AI-powered website solution creates a personalized digital presence for your healthcare practice.',
+    image: 'https://img.freepik.com/free-vector/medical-technology-science-background-vector-health-care-design-blue_53876-140667.jpg'
+  },
+  {
+    title: 'Enhanced Patient Conversion',
+    desc: 'Smart conversion optimization tools to turn visitors into patients with personalized experiences.',
+    benefits: ['Personalized Patient Journey', 'Smart Lead Scoring', 'Conversion Analytics'],
+    detailedDescription: 'Transform visitors into patients with our advanced conversion optimization system.',
+    image: 'https://img.freepik.com/free-vector/telemedicine-abstract-concept-vector-illustration-medical-consultation-online-remote-health-monitoring-patient-portal-appointment-booking-digital-healthcare-service-abstract-metaphor_335657-2281.jpg'
+  },
+  {
+    title: 'Real-Time Query Handling',
+    desc: 'Instant response system for patient inquiries with AI-powered chat support.',
+    benefits: ['Instant Responses', 'Multi-language Support', 'Context-Aware AI'],
+    detailedDescription: 'Never miss a patient query with our real-time response system.',
+    image: 'https://img.freepik.com/free-vector/online-doctor-consultation-illustration_88138-414.jpg'
+  },
+  {
+    title: 'Medical Report Analysis',
+    desc: 'Advanced AI analysis of medical reports for quick and accurate patient assessments.',
+    benefits: ['Automated Analysis', 'Quick Turnaround', 'Accurate Insights'],
+    detailedDescription: 'Leverage AI to analyze medical reports quickly and accurately.',
+    image: 'https://img.freepik.com/free-vector/medical-healthcare-diagnostics-abstract-concept-vector-illustration-diagnostic-testing-center-healthcare-system-medical-diagnostic-equipment-disease-prevention-symptoms-checker-abstract-metaphor_335657-1602.jpg'
+  },
+  {
+    title: 'Secure Data Management',
+    desc: 'Enterprise-grade security for all your patient data and communications.',
+    benefits: ['HIPAA Compliant', 'End-to-End Encryption', 'Regular Security Audits'],
+    detailedDescription: 'Keep patient data secure with our enterprise-grade security system.',
+    image: 'https://img.freepik.com/free-vector/data-security-concept-illustration_114360-5421.jpg'
+  },
+  {
+    title: 'Global Healthcare Network',
+    desc: 'Connect with healthcare providers and patients worldwide.',
+    benefits: ['International Reach', 'Cross-border Care', 'Global Standards'],
+    detailedDescription: 'Expand your reach globally with our healthcare network.',
+    image: 'https://img.freepik.com/free-vector/global-medical-technology-network-connection-background_53876-119507.jpg'
+  }
 ];
 
 function Features() {
   return (
-    <div className="min-h-screen bg-[#ecfeff] py-16 px-4 flex items-center justify-center">
-      <div className="max-w-6xl w-full bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-4xl font-bold text-cyan-700 mb-8 text-center">Features</h1>
-        <p className="text-lg text-cyan-900 mb-12 text-center max-w-2xl mx-auto">GoGetWell.AI gives you everything you need to grow your healthcare facilitation business—powered by AI, designed for results.</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {features.map((f, i) => (
+    <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-white py-20 px-4">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold text-cyan-900 mb-6">
+            Powerful Features for Healthcare Providers
+          </h1>
+          <p className="text-xl text-cyan-700 max-w-3xl mx-auto">
+            Transform your healthcare practice with our AI-powered solutions designed to enhance patient care and streamline operations.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
             <motion.div
-              key={f.title}
-              className="bg-cyan-50 rounded-xl shadow p-6 flex flex-col items-center text-center hover:shadow-xl transition group"
-              whileHover={{ scale: 1.06 }}
-              initial={{ opacity: 0, y: 40 }}
+              key={feature.title}
+              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.07 }}
+              transition={{ delay: index * 0.1 }}
             >
-              <div className="text-cyan-600 text-4xl mb-4 group-hover:text-cyan-800 transition">{f.icon}</div>
-              <div className="font-bold text-lg mb-2">{f.title}</div>
-              <div className="text-cyan-700 text-sm">{f.desc}</div>
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={feature.image}
+                  alt={feature.title}
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/70 to-transparent" />
+              </div>
+              
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-cyan-900 mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-cyan-600 mb-4">
+                  {feature.desc}
+                </p>
+                <ul className="space-y-2 mb-6">
+                  {feature.benefits.map((benefit, idx) => (
+                    <li key={idx} className="flex items-center text-cyan-700 text-sm">
+                      <span className="w-2 h-2 bg-cyan-500 rounded-full mr-2" />
+                      {benefit}
+                    </li>
+                  ))}
+                </ul>
+                <Link 
+                  to={`/features/${index + 1}`}
+                  className="inline-flex items-center text-cyan-600 font-semibold hover:text-cyan-500 transition-colors group/link"
+                >
+                  Learn More
+                  <ArrowRightIcon className="w-4 h-4 ml-1 transform group-hover/link:translate-x-1 transition-transform" />
+                </Link>
+              </div>
             </motion.div>
           ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <Link to="/demo">
+            <motion.button
+              className="bg-gradient-to-r from-cyan-600 to-cyan-500 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get Your Patient Ready Website Now
+            </motion.button>
+          </Link>
+          <p className="mt-4 text-cyan-600">
+            Use power AI to transform your online presence and automate patient interactions
+          </p>
         </div>
       </div>
     </div>

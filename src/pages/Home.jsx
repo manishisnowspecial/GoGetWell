@@ -1,83 +1,130 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { UserGroupIcon, BuildingOffice2Icon, DocumentChartBarIcon, ChatBubbleLeftRightIcon, GlobeAltIcon, CreditCardIcon, ChartBarIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import PageLayout from '../components/PageLayout';
+import { fadeInUp, staggerContainer } from '../utils/animations';
+import { 
+  UserGroupIcon, 
+  BuildingOffice2Icon, 
+  DocumentChartBarIcon, 
+  ChatBubbleLeftRightIcon, 
+  GlobeAltIcon,
+  ChartBarIcon, 
+  ShieldCheckIcon,
+  CheckCircleIcon,
+  StarIcon,
+  CogIcon,
+  ClockIcon,
+  ArrowRightIcon,
+  BeakerIcon,
+  BoltIcon,
+  SparklesIcon,
+  CloudArrowUpIcon,
+  LockClosedIcon,
+  ServerIcon,
+  FingerPrintIcon,
+  ChevronDownIcon,
+  XMarkIcon,
+  UserCircleIcon,
+  PaperAirplaneIcon
+} from '@heroicons/react/24/outline';
 
-const featureIcons = [
-  <UserGroupIcon className="h-10 w-10 text-blue-500" />,
-  <BuildingOffice2Icon className="h-10 w-10 text-blue-500" />,
-  <DocumentChartBarIcon className="h-10 w-10 text-blue-500" />,
-  <ChatBubbleLeftRightIcon className="h-10 w-10 text-blue-500" />,
-  <ChartBarIcon className="h-10 w-10 text-blue-500" />,
-  <GlobeAltIcon className="h-10 w-10 text-blue-500" />,
-  <CreditCardIcon className="h-10 w-10 text-blue-500" />,
-  <ShieldCheckIcon className="h-10 w-10 text-blue-500" />
-];
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i = 1) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.15,
-      duration: 0.7,
-      ease: 'easeOut',
-    },
-  }),
+// Enhanced image constants with more creative placeholders
+const IMAGES = {
+  hero: {
+    main: 'https://placehold.co/1200x800/0891b2/ffffff?text=Healthcare+Professional',
+    shape: 'https://via.placeholder.com/2000/0891b2/ffffff',
+    pattern: 'https://via.placeholder.com/2000/0891b2/ffffff'
+  },
+  features: {
+    ai: 'https://placehold.co/800x500/0891b2/ffffff?text=AI+Healthcare',
+    growth: 'https://placehold.co/800x500/0ea5e9/ffffff?text=Growth+Analytics',
+    operations: 'https://placehold.co/800x500/06b6d4/ffffff?text=Healthcare+Operations',
+    security: 'https://placehold.co/800x500/0284c7/ffffff?text=Security',
+    support: 'https://placehold.co/800x500/0369a1/ffffff?text=24-7+Support',
+    global: 'https://placehold.co/800x500/075985/ffffff?text=Global+Reach'
+  },
+  testimonials: {
+    doctor1: 'https://placehold.co/200x200/0891b2/ffffff?text=Dr.+Sarah',
+    doctor2: 'https://placehold.co/200x200/0ea5e9/ffffff?text=Dr.+Mark',
+    doctor3: 'https://placehold.co/200x200/06b6d4/ffffff?text=Dr.+Emily'
+  },
+  partners: {
+    hospital1: 'https://placehold.co/400x300/0891b2/ffffff?text=Hospital+1',
+    hospital2: 'https://placehold.co/400x300/0ea5e9/ffffff?text=Hospital+2',
+    hospital3: 'https://placehold.co/400x300/06b6d4/ffffff?text=Hospital+3',
+    hospital4: 'https://placehold.co/400x300/0284c7/ffffff?text=Hospital+4'
+  },
+  mission: 'https://placehold.co/1000x600/0891b2/ffffff?text=Our+Mission',
+  contact: 'https://placehold.co/800x500/0891b2/ffffff?text=Contact+Support',
+  benefits: {
+    efficiency: 'https://placehold.co/600x400/0891b2/ffffff?text=Efficiency',
+    security: 'https://placehold.co/600x400/0ea5e9/ffffff?text=Security',
+    scalability: 'https://placehold.co/600x400/06b6d4/ffffff?text=Scalability',
+    support: 'https://placehold.co/600x400/0284c7/ffffff?text=Support'
+  }
 };
 
+// Enhanced statistics with animations
 const stats = [
-  { label: 'qualified doctors', value: '2100+' },
-  { label: 'hospitals', value: '1000+' },
-  { label: 'AI Treatment Plans', value: '800+' },
+  { 
+    label: 'qualified doctors',
+    value: '2100+',
+    icon: <UserGroupIcon className="h-8 w-8 text-cyan-200" />,
+    description: 'Healthcare professionals using our platform'
+  },
+  { 
+    label: 'hospitals',
+    value: '1000+',
+    icon: <BuildingOffice2Icon className="h-8 w-8 text-cyan-200" />,
+    description: 'Partner institutions worldwide'
+  },
+  { 
+    label: 'AI Treatment Plans',
+    value: '800+',
+    icon: <BeakerIcon className="h-8 w-8 text-cyan-200" />,
+    description: 'Customized healthcare solutions'
+  },
 ];
 
+// Enhanced features with more details and icons
 const features = [
   {
     title: 'Custom AI-Powered Website',
     desc: 'Intelligent, responsive websites tailored to healthcare providers with automated patient interactions.',
-    icon: featureIcons[0],
+    icon: <SparklesIcon className="h-10 w-10 text-cyan-500" />,
+    benefits: ['24/7 Patient Interaction', 'Smart Appointment Scheduling', 'Automated Follow-ups']
   },
   {
     title: 'Enhanced Patient Conversion',
     desc: 'Smart conversion optimization tools to turn visitors into patients with personalized experiences.',
-    icon: featureIcons[1],
+    icon: <ChartBarIcon className="h-10 w-10 text-cyan-500" />,
+    benefits: ['Personalized Patient Journey', 'Smart Lead Scoring', 'Conversion Analytics']
   },
   {
     title: 'Real-Time Query Handling',
     desc: 'Instant response system for patient inquiries with AI-powered chat support.',
-    icon: featureIcons[2],
+    icon: <BoltIcon className="h-10 w-10 text-cyan-500" />,
+    benefits: ['Instant Responses', 'Multi-language Support', 'Context-Aware AI']
   },
   {
     title: 'Medical Report Analysis',
     desc: 'Advanced AI analysis of medical reports for quick and accurate patient assessments.',
-    icon: featureIcons[3],
+    icon: <DocumentChartBarIcon className="h-10 w-10 text-cyan-500" />,
+    benefits: ['Automated Analysis', 'Quick Turnaround', 'Accurate Insights']
   },
   {
-    title: 'Improved Lead Generation',
-    desc: 'Data-driven lead generation strategies to attract and engage potential patients.',
-    icon: featureIcons[0],
+    title: 'Secure Data Management',
+    desc: 'Enterprise-grade security for all your patient data and communications.',
+    icon: <ShieldCheckIcon className="h-10 w-10 text-cyan-500" />,
+    benefits: ['HIPAA Compliant', 'End-to-End Encryption', 'Regular Security Audits']
   },
   {
-    title: 'Comprehensive Healthcare Database',
-    desc: 'Extensive medical information database for accurate patient guidance and support.',
-    icon: featureIcons[1],
-  },
-  {
-    title: 'Multilingual Support',
-    desc: 'Breaking language barriers with comprehensive multilingual communication tools.',
-    icon: featureIcons[2],
-  },
-  {
-    title: 'Seamless Payment Handling',
-    desc: 'Secure and efficient payment processing for medical services globally.',
-    icon: featureIcons[3],
-  },
-  {
-    title: 'Marketing And SEO Support',
-    desc: 'Optimized digital presence with advanced SEO and marketing strategies.',
-    icon: featureIcons[0],
-  },
+    title: 'Global Healthcare Network',
+    desc: 'Connect with healthcare providers and patients worldwide.',
+    icon: <GlobeAltIcon className="h-10 w-10 text-cyan-500" />,
+    benefits: ['International Reach', 'Cross-border Care', 'Global Standards']
+  }
 ];
 
 const faqs = [
@@ -127,231 +174,758 @@ const faqs = [
   },
 ];
 
+const pricingPlans = [
+  {
+    name: 'Starter',
+    price: '99',
+    description: 'Perfect for independent healthcare facilitators',
+    features: [
+      'AI-powered website builder',
+      'Basic patient management',
+      'Email support',
+      'Up to 50 patient inquiries/month',
+      'Basic analytics'
+    ]
+  },
+  {
+    name: 'Professional',
+    price: '199',
+    description: 'Ideal for growing healthcare practices',
+    features: [
+      'Everything in Starter, plus:',
+      'Advanced AI chatbot',
+      'Priority support',
+      'Unlimited patient inquiries',
+      'Advanced analytics & reporting',
+      'Custom branding',
+      'Multi-language support'
+    ],
+    popular: true
+  },
+  {
+    name: 'Enterprise',
+    price: 'Custom',
+    description: 'For large healthcare networks',
+    features: [
+      'Everything in Professional, plus:',
+      'Dedicated account manager',
+      'Custom integrations',
+      'API access',
+      'White-label solution',
+      'Advanced security features',
+      '24/7 phone support'
+    ]
+  }
+];
+
+const testimonials = [
+  {
+    name: 'Dr. Sarah Johnson',
+    role: 'Healthcare Facilitator',
+    quote: 'GoGetWell.ai transformed my practice. The AI-powered system handles patient inquiries 24/7, allowing me to focus on providing quality care.'
+  },
+  {
+    name: 'Mark Thompson',
+    role: 'Hospital Administrator',
+    quote: 'The platform streamlined our patient management process and significantly improved our conversion rates. Highly recommended!'
+  },
+  {
+    name: 'Dr. Emily Chen',
+    role: 'Medical Tourism Expert',
+    quote: 'The multilingual support and automated booking system made international patient coordination effortless.'
+  }
+];
+
+// Benefits section data
+const benefits = [
+  {
+    title: 'Streamlined Operations',
+    description: 'Automate routine tasks and focus on what matters most - patient care.',
+    icon: <BoltIcon className="h-12 w-12 text-cyan-500" />,
+    image: IMAGES.benefits.efficiency
+  },
+  {
+    title: 'Enterprise Security',
+    description: 'Bank-grade security measures to protect sensitive healthcare data.',
+    icon: <ShieldCheckIcon className="h-12 w-12 text-cyan-500" />,
+    image: IMAGES.benefits.security
+  },
+  {
+    title: 'Global Scalability',
+    description: 'Expand your healthcare services across borders effortlessly.',
+    icon: <ChartBarIcon className="h-12 w-12 text-cyan-500" />,
+    image: IMAGES.benefits.scalability
+  },
+  {
+    title: '24/7 Support',
+    description: 'Round-the-clock assistance for you and your patients.',
+    icon: <UserGroupIcon className="h-12 w-12 text-cyan-500" />,
+    image: IMAGES.benefits.support
+  }
+];
+
+// Technology features
+const techFeatures = [
+  {
+    icon: <CloudArrowUpIcon className="h-6 w-6" />,
+    title: 'Cloud Infrastructure',
+    description: 'Secure, scalable, and always available'
+  },
+  {
+    icon: <LockClosedIcon className="h-6 w-6" />,
+    title: 'End-to-End Encryption',
+    description: 'Your data is always protected'
+  },
+  {
+    icon: <ServerIcon className="h-6 w-6" />,
+    title: 'High Performance',
+    description: 'Lightning-fast response times'
+  },
+  {
+    icon: <FingerPrintIcon className="h-6 w-6" />,
+    title: 'Advanced Security',
+    description: 'Multi-factor authentication'
+  }
+];
+
 function Home() {
+  const [selectedFaq, setSelectedFaq] = useState(null);
+  const [showChat, setShowChat] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
+  const [activeFaq, setActiveFaq] = useState(null);
+
   return (
-    <main className="bg-[#ecfeff]">
+    <PageLayout>
       {/* Hero Section */}
-      <motion.section
-        className="bg-gradient-to-br from-cyan-700 to-cyan-400 text-white py-24 px-4"
+      <motion.section 
+        className="bg-[#00A7B3] min-h-[90vh] flex items-center relative overflow-hidden"
+        variants={staggerContainer}
         initial="hidden"
         animate="visible"
-        variants={fadeInUp}
-        custom={0}
       >
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
-          <motion.div className="flex-1 md:pr-12" variants={fadeInUp} custom={1}>
-            <h1 className="text-5xl md:text-6xl font-extrabold mb-4 leading-tight drop-shadow-lg">Website Builder <span className="text-cyan-200">for healthcare facilitators</span></h1>
-            <p className="text-2xl md:text-3xl mb-2 max-w-xl font-light">Create AI Store in 2 min</p>
-            <p className="text-lg md:text-xl mb-8 max-w-xl font-light">Boost Patients Conversion and Earn While Sleeping</p>
-            <div className="flex gap-4 mb-8">
-              <motion.a href="/demo" className="inline-block bg-cyan-500 text-white font-bold px-8 py-3 rounded-full shadow-lg hover:bg-cyan-400 focus:outline-none focus:ring-4 focus:ring-cyan-200 transition" whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }}>Get Started</motion.a>
-            </div>
-            <div className="flex gap-8 mb-8">
-              {stats.map((stat, i) => (
-                <div key={i} className="text-center">
-                  <div className="text-3xl font-bold text-cyan-100">{stat.value}</div>
-                  <div className="text-sm text-cyan-100 opacity-80">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-          {/* Animated SVG Spinner + Embedded YouTube Video */}
-          <motion.div className="flex-1 flex flex-col items-center w-full gap-6" variants={fadeInUp} custom={2}>
-            <div className="w-full max-w-md flex items-center justify-center">
-              <svg className="animate-spin h-24 w-24 text-cyan-400" viewBox="0 0 50 50">
-                <circle className="opacity-25" cx="25" cy="25" r="20" fill="none" stroke="currentColor" strokeWidth="6" />
-                <path className="opacity-75" fill="currentColor" d="M25 5a20 20 0 0 1 20 20h-6a14 14 0 0 0-14-14V5z" />
-              </svg>
-            </div>
-            <div className="w-full max-w-xl aspect-w-16 aspect-h-9 rounded-xl overflow-hidden shadow-lg border-4 border-white">
-              <iframe
-                src="https://www.youtube.com/embed/xQl8i2sO_Ls"
-                title="GoGetWell Preview Video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                className="w-full h-72 md:h-96"
-              ></iframe>
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      {/* AI Front Office Section */}
-      <motion.section className="py-20 px-4 bg-gradient-to-br from-cyan-50 to-cyan-100" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} custom={1}>
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-1 md:pr-12">
-            <h2 className="text-4xl font-bold mb-4 text-cyan-700">AI Front Office for Healthcare Agents</h2>
-            <p className="text-lg text-cyan-900 mb-6">A powerful platform to manage your healthcare services more efficiently. The AI Front Office handles patient leads, books appointments, and even builds a professional website—all using AI, so you can focus on delivering care.</p>
-            <ul className="list-disc ml-6 text-cyan-700">
-              <li>Virtual AI Agent answers patient questions, schedules consultations, and manages appointments in real time.</li>
-              <li>Automate everyday tasks, save time, and boost productivity.</li>
-              <li>Customizable to showcase your services and brand.</li>
-            </ul>
-          </div>
-          <div className="flex-1 flex justify-center">
-            <img src="https://cdn.jsdelivr.net/gh/saadeghi/files/ai-agent-illustration.svg" alt="AI Front Office Illustration" className="w-full max-w-md rounded-2xl shadow-2xl border-4 border-white" />
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Growth Focus & Efficient Operations Section */}
-      <motion.section className="py-16 px-4 bg-white" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} custom={1}>
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h3 className="text-2xl font-bold mb-2 text-cyan-700">Growth Focus</h3>
-            <p className="text-cyan-900 mb-4">Maximizing revenue and opportunities for healthcare facilitators and hospitals.</p>
-            <ul className="list-disc ml-6 text-cyan-700">
-              <li>Optimized operations with advanced technology</li>
-              <li>Data-driven lead generation and conversion</li>
-              <li>Comprehensive marketing and SEO support</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-2xl font-bold mb-2 text-cyan-700">Efficient Operations</h3>
-            <p className="text-cyan-900 mb-4">Streamlined booking, management, and patient communication for better outcomes.</p>
-            <ul className="list-disc ml-6 text-cyan-700">
-              <li>Automated patient interactions and real-time query handling</li>
-              <li>Seamless payment and multilingual support</li>
-              <li>24/7 support for patients and facilitators</li>
-            </ul>
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Features Section */}
-      <section className="py-24 px-4 bg-gradient-to-br from-cyan-50 to-cyan-100">
-        <h2 className="text-4xl font-bold text-center mb-14 text-cyan-700">Our Comprehensive Solutions</h2>
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {features.map((f, i) => (
-            <motion.div
-              key={i}
-              className="bg-white rounded-2xl shadow-lg p-8 text-center border-t-4 border-cyan-400 flex flex-col items-center"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 * i, duration: 0.7, ease: 'easeOut' }}
+        <div className="container mx-auto px-4 py-16">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Left Content */}
+            <motion.div 
+              className="text-white"
+              variants={fadeInUp}
             >
-              {f.icon}
-              <h3 className="font-semibold text-xl mb-2 text-cyan-700">{f.title}</h3>
-              <p className="text-cyan-900">{f.desc}</p>
+              <motion.h1 
+                className="text-5xl md:text-6xl font-bold mb-6"
+                variants={fadeInUp}
+              >
+                Website Builder for
+                <div className="text-[#B3E3E8]">healthcare</div>
+                <div className="text-[#B3E3E8]">facilitators</div>
+              </motion.h1>
+              <motion.h2 
+                className="text-3xl mb-4"
+                variants={fadeInUp}
+              >
+                Create AI Store in 2 min
+              </motion.h2>
+              <motion.p 
+                className="text-xl mb-8"
+                variants={fadeInUp}
+              >
+                Boost Patients Conversion and Earn While Sleeping
+              </motion.p>
+              <Link to="/demo">
+                <motion.button 
+                  className="bg-[#00D1E0] text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-[#00bfcc] transition-colors"
+                  variants={fadeInUp}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Get Started
+                </motion.button>
+              </Link>
+
+              {/* Stats */}
+              <motion.div 
+                className="grid grid-cols-3 gap-8 mt-16"
+                variants={fadeInUp}
+              >
+                <motion.div variants={fadeInUp}>
+                  <div className="text-4xl font-bold mb-2">2100+</div>
+                  <div className="text-[#B3E3E8]">qualified doctors</div>
+                </motion.div>
+                <motion.div variants={fadeInUp}>
+                  <div className="text-4xl font-bold mb-2">1000+</div>
+                  <div className="text-[#B3E3E8]">hospitals</div>
+                </motion.div>
+                <motion.div variants={fadeInUp}>
+                  <div className="text-4xl font-bold mb-2">800+</div>
+                  <div className="text-[#B3E3E8]">AI Treatment Plans</div>
+                </motion.div>
+              </motion.div>
             </motion.div>
-          ))}
+
+            {/* Right Content - Video */}
+            <motion.div 
+              className="relative"
+              variants={fadeInUp}
+            >
+              <iframe
+                className="w-full h-[400px] rounded-lg shadow-xl"
+                src="https://www.youtube.com/embed/xQl8i2sO_Ls"
+                title="GoGetWell AI Demo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </motion.div>
+          </div>
         </div>
-        <motion.div className="text-center mt-14" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.7, ease: 'easeOut' }}>
-          <a href="/demo" className="inline-block bg-cyan-700 text-white font-bold px-10 py-4 rounded-full shadow-lg hover:bg-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-300 transition text-lg">Get Your Patient Ready Website Now</a>
-        </motion.div>
-        <div className="text-center mt-4 text-lg text-cyan-700">Use power AI to transform your online presence and automate patient interactions</div>
-        <div className="text-center mt-2">
-          <a href="/contact" className="inline-block bg-cyan-500 text-white font-bold px-8 py-3 rounded-full shadow-lg hover:bg-cyan-400 focus:outline-none focus:ring-4 focus:ring-cyan-200 transition">Join the Waiting List</a>
+      </motion.section>
+
+      {/* Social Proof Section */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+            <img src="https://placehold.co/200x80/ffffff/333333?text=Partner+1" alt="Partner 1" className="h-12 object-contain" />
+            <img src="https://placehold.co/200x80/ffffff/333333?text=Partner+2" alt="Partner 2" className="h-12 object-contain" />
+            <img src="https://placehold.co/200x80/ffffff/333333?text=Partner+3" alt="Partner 3" className="h-12 object-contain" />
+            <img src="https://placehold.co/200x80/ffffff/333333?text=Partner+4" alt="Partner 4" className="h-12 object-contain" />
+          </div>
         </div>
       </section>
 
-      {/* Mission & Challenges Section */}
-      <motion.section className="py-24 px-4 bg-white" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} custom={1}>
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-3xl font-bold mb-4 text-cyan-700">Our Mission</h2>
-            <p className="text-lg text-cyan-900 mb-6">Our mission is to simplify the complex medical tourism process by leveraging advanced AI tools that optimize healthcare facilitators operations, maximize revenue opportunities, and provide patients with personalized and stress-free treatment journeys.</p>
-            <p className="text-lg text-cyan-900 mb-2">We strive to become the leading platform for healthcare tourism management and digital transformation.</p>
-            <ul className="list-disc ml-6 text-cyan-700">
-              <li>AI-Powered Solutions: Optimizing operations with advanced technology</li>
-              <li>Growth Focus: Maximizing revenue and opportunities</li>
-            </ul>
+      {/* Features Section with Comprehensive Solutions */}
+      <motion.section 
+        className="py-20 bg-gradient-to-br from-cyan-50 via-white to-cyan-50 relative overflow-hidden"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `url(${IMAGES.hero.pattern})`,
+            backgroundSize: 'cover'
+          }}
+          animate={{
+            y: [-50, 0],
+            transition: {
+              repeat: Infinity,
+              duration: 20,
+              ease: "linear"
+            }
+          }}
+        />
+        <div className="max-w-7xl mx-auto relative z-10">
+          <motion.div className="text-center mb-16" variants={fadeInUp}>
+            <span className="text-cyan-600 font-semibold text-sm tracking-wider uppercase mb-2 block">Why Choose Us</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-cyan-900 mb-6">
+              Our Comprehensive Solutions
+            </h2>
+            <p className="text-xl text-cyan-600 max-w-3xl mx-auto">
+              Discover how our AI-powered solutions can transform your healthcare practice with cutting-edge technology and seamless integration.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-500"
+                variants={fadeInUp}
+                whileHover={{ y: -10 }}
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-cyan-900/50 group-hover:opacity-75 transition-opacity duration-300 z-10"></div>
+                  <img
+                    src={IMAGES.features[['ai', 'growth', 'operations', 'security', 'support', 'global'][index]]}
+                    alt={feature.title}
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg z-20">
+                    {feature.icon}
+                  </div>
+                </div>
+                <div className="p-8">
+                  <h3 className="font-bold text-xl mb-3 text-cyan-900">{feature.title}</h3>
+                  <p className="text-cyan-600 mb-4">{feature.desc}</p>
+                  <ul className="space-y-2">
+                    {feature.benefits.map((benefit, i) => (
+                      <li key={i} className="flex items-center text-cyan-700">
+                        <CheckCircleIcon className="h-5 w-5 text-cyan-500 mr-2 flex-shrink-0" />
+                        <span className="text-sm">{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="px-8 pb-6">
+                  <Link to={`/features/${index + 1}`}>
+                    <motion.button
+                      className="text-cyan-600 font-semibold inline-flex items-center group/btn"
+                      whileHover={{ x: 5 }}
+                    >
+                      Learn More
+                      <ArrowRightIcon className="h-4 w-4 ml-2 transform group-hover/btn:translate-x-1 transition-transform" />
+                    </motion.button>
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
           </div>
-          <div>
-            <h2 className="text-3xl font-bold mb-4 text-cyan-700">The Challenges We Solve</h2>
-            <p className="text-lg text-cyan-900 mb-6">Medical tourism, especially in India, is plagued by disorganization and inefficiency. Facilitators often rely on outdated methods, leading to delayed bookings, inadequate patient support, and missed growth opportunities.</p>
-            <p className="text-lg text-cyan-900 mb-2">Our platform addresses these pain points by streamlining lead management and improving operational efficiency for facilitators and hospitals alike.</p>
-            <ul className="list-disc ml-6 text-cyan-700">
-              <li>Efficient Operations: Streamlined booking and management</li>
-              <li>Enhanced Support: Improved patient communication</li>
-            </ul>
+        </div>
+      </motion.section>
+
+      {/* Integration Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-cyan-900 mb-4">
+              Seamless Integration with Your Existing Tools
+            </h2>
+            <p className="text-xl text-cyan-600 max-w-3xl mx-auto">
+              Connect with your favorite healthcare and business tools
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+              <div key={item} className="flex flex-col items-center p-6 bg-gray-50 rounded-lg">
+                <img 
+                  src={`https://placehold.co/80x80/e2e8f0/64748b?text=Tool+${item}`}
+                  alt={`Integration ${item}`}
+                  className="w-16 h-16 mb-4"
+                />
+                <h3 className="text-cyan-900 font-semibold">Integration {item}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* New AI-Powered Website Section */}
+      <section className="relative py-28 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#00A7B3] to-[#00D1E0]/40"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="flex justify-center mb-12">
+              <div className="bg-[#B3E3E8]/30 backdrop-blur-sm p-6 rounded-full">
+                <svg className="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
+                Get Your Patient Ready Website Now
+              </h2>
+              <p className="text-2xl text-white/90 mb-12">
+                Use power AI to transform your online presence and automate patient interactions
+              </p>
+              <Link to="/demo">
+                <motion.button
+                  className="bg-[#00D1E0] hover:bg-[#00bfcc] text-white px-10 py-5 rounded-full text-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Join the Waiting List
+                </motion.button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <motion.section
+        className="py-20 bg-gradient-to-br from-cyan-900 to-cyan-700 text-white relative overflow-hidden"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `url(${IMAGES.hero.pattern})`,
+            backgroundSize: 'cover'
+          }}
+          animate={{
+            y: [-50, 0],
+            transition: {
+              repeat: Infinity,
+              duration: 20,
+              ease: "linear"
+            }
+          }}
+        />
+        <div className="max-w-7xl mx-auto relative z-10">
+          <motion.div className="text-center mb-16" variants={fadeInUp}>
+            <span className="text-cyan-200 font-semibold text-sm tracking-wider uppercase mb-2 block">Benefits</span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Why Healthcare Providers Choose Us
+            </h2>
+            <p className="text-xl text-cyan-100 max-w-3xl mx-auto">
+              Experience the future of healthcare management with our comprehensive suite of tools and services.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={index}
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/20 transition-all duration-300"
+                variants={fadeInUp}
+                whileHover={{ y: -5, scale: 1.02 }}
+              >
+                <motion.div
+                  className="mb-4"
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {benefit.icon}
+                </motion.div>
+                <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
+                <p className="text-cyan-100">{benefit.description}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div 
+            className="mt-16 text-center"
+            variants={fadeInUp}
+          >
+            <motion.a
+              href="/demo"
+              className="inline-block bg-white text-cyan-700 font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30 transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Start Your Journey
+            </motion.a>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Testimonials Section - Enhanced with video testimonials */}
+      <motion.section 
+        className="py-20 bg-gradient-to-br from-cyan-50 to-cyan-100 relative overflow-hidden"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div className="text-center mb-16" variants={fadeInUp}>
+            <h2 className="text-4xl font-bold text-cyan-900 mb-6">
+              Hear from Our Happy Customers
+            </h2>
+            <p className="text-xl text-cyan-600 max-w-3xl mx-auto">
+              See how healthcare providers are transforming their practice with GoGetWell
+            </p>
+          </motion.div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                className="bg-white rounded-2xl shadow-lg p-8 relative"
+                variants={fadeInUp}
+              >
+                <div className="mb-6">
+                  <div className="w-16 h-16 rounded-full overflow-hidden mb-4">
+                    <img
+                      src={IMAGES.testimonials[`doctor${index + 1}`]}
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-cyan-900">{testimonial.name}</h3>
+                    <p className="text-cyan-600">{testimonial.role}</p>
+                  </div>
+                </div>
+                <p className="text-cyan-700">{testimonial.quote}</p>
+                <div className="mt-4">
+                  {[...Array(5)].map((_, i) => (
+                    <StarIcon key={i} className="h-5 w-5 text-yellow-400 inline-block" />
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Pricing Section */}
+      <motion.section 
+        className="py-24 px-4 bg-white"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div className="text-center mb-16" variants={fadeInUp}>
+            <h2 className="text-4xl font-bold text-cyan-700 mb-4">Simple, Transparent Pricing</h2>
+            <p className="text-xl text-cyan-600">Choose the plan that best fits your needs</p>
+          </motion.div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {pricingPlans.map((plan, index) => (
+              <motion.div
+                key={index}
+                className={`rounded-2xl shadow-lg p-8 ${
+                  plan.popular ? 'bg-gradient-to-br from-cyan-50 to-white border-2 border-cyan-400 relative' : 'bg-white'
+                }`}
+                variants={fadeInUp}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-cyan-400 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                      Most Popular
+                    </span>
+                  </div>
+                )}
+                <h3 className="text-2xl font-bold text-cyan-700 mb-2">{plan.name}</h3>
+                <div className="text-4xl font-bold text-cyan-900 mb-4">
+                  ${plan.price}
+                  {plan.price !== 'Custom' && <span className="text-lg font-normal text-cyan-600">/month</span>}
+                </div>
+                <p className="text-cyan-600 mb-6">{plan.description}</p>
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature, i) => (
+                    <li key={i} className="flex items-start">
+                      <CheckCircleIcon className="h-6 w-6 text-cyan-500 mr-2 flex-shrink-0" />
+                      <span className="text-cyan-900">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button className={`w-full py-3 rounded-full font-bold transition ${
+                  plan.popular
+                    ? 'bg-cyan-600 text-white hover:bg-cyan-500'
+                    : 'bg-cyan-100 text-cyan-700 hover:bg-cyan-200'
+                }`}>
+                  Get Started
+                </button>
+              </motion.div>
+            ))}
           </div>
         </div>
       </motion.section>
 
       {/* FAQ Section */}
-      <motion.section className="py-24 px-4 bg-gradient-to-br from-cyan-50 to-cyan-100" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} custom={1}>
-        <h2 className="text-4xl font-bold text-center mb-14 text-cyan-700">Frequently Asked Questions</h2>
-        <div className="max-w-4xl mx-auto divide-y divide-cyan-100 rounded-2xl bg-white shadow-lg">
-          {faqs.map((faq, i) => (
-            <details key={i} className="group p-6 cursor-pointer" open={i === 0}>
-              <summary className="font-semibold text-cyan-700 text-lg flex items-center justify-between group-open:text-cyan-600 transition">
-                {faq.q}
-                <span className="ml-2 text-cyan-400">▼</span>
-              </summary>
-              <div className="mt-2 text-cyan-900 text-base">{faq.a}</div>
-            </details>
-          ))}
+      <motion.section 
+        className="py-24 px-4 bg-white relative overflow-hidden"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `url(${IMAGES.hero.pattern})`,
+            backgroundSize: 'cover'
+          }}
+          animate={{
+            y: [-50, 0],
+            transition: {
+              repeat: Infinity,
+              duration: 20,
+              ease: "linear"
+            }
+          }}
+        />
+        <div className="max-w-4xl mx-auto relative z-10">
+          <motion.div className="text-center mb-16" variants={fadeInUp}>
+            <span className="text-cyan-600 font-semibold text-sm tracking-wider uppercase mb-2 block">FAQ</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-cyan-900 mb-6">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-xl text-cyan-600">
+              Find answers to common questions about GoGetWell.ai
+            </p>
+          </motion.div>
+
+          <div className="space-y-6">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                variants={fadeInUp}
+                whileHover={{ scale: 1.02 }}
+                initial="collapsed"
+                animate={selectedFaq === index ? "expanded" : "collapsed"}
+                onClick={() => setSelectedFaq(selectedFaq === index ? null : index)}
+              >
+                <div className="p-6 cursor-pointer">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-lg font-semibold text-cyan-900">{faq.q}</h3>
+                    <motion.div
+                      animate={{ rotate: selectedFaq === index ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <ChevronDownIcon className="h-5 w-5 text-cyan-600" />
+                    </motion.div>
+                  </div>
+                  <motion.div
+                    variants={{
+                      expanded: { height: "auto", opacity: 1, marginTop: 16 },
+                      collapsed: { height: 0, opacity: 0, marginTop: 0 }
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="text-cyan-600">{faq.a}</p>
+                  </motion.div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </motion.section>
 
-      {/* Testimonials Section */}
-      <motion.section className="py-24 px-4 bg-gradient-to-br from-cyan-50 to-cyan-100" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} custom={1}>
-        <h2 className="text-4xl font-bold text-center mb-14 text-cyan-700">What Our Users Say</h2>
-        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-10">
-          <motion.div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-l-4 border-cyan-400" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.7, ease: 'easeOut' }}>
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex P." className="w-16 h-16 rounded-full mb-4 border-4 border-cyan-200" />
-            <p className="italic mb-4 text-cyan-900 text-lg">“GoGetWell helped me understand my health better and make smarter choices every day!”</p>
-            <div className="font-semibold text-cyan-700">— Alex P.</div>
-          </motion.div>
-          <motion.div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-l-4 border-cyan-400" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.7, ease: 'easeOut' }}>
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya S." className="w-16 h-16 rounded-full mb-4 border-4 border-cyan-200" />
-            <p className="italic mb-4 text-cyan-900 text-lg">“The AI recommendations are spot on and super easy to follow.”</p>
-            <div className="font-semibold text-cyan-700">— Priya S.</div>
-          </motion.div>
-          <motion.div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-l-4 border-cyan-400" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3, duration: 0.7, ease: 'easeOut' }}>
-            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Dr. Kumar" className="w-16 h-16 rounded-full mb-4 border-4 border-cyan-200" />
-            <p className="italic mb-4 text-cyan-900 text-lg">“The AI Front Office made my clinic operations seamless and my patients love the instant responses!”</p>
-            <div className="font-semibold text-cyan-700">— Dr. Kumar</div>
+      {/* Final CTA Section */}
+      <motion.section 
+        className="py-24 bg-gradient-to-br from-[#00A7B3] to-[#00D1E0] text-white relative overflow-hidden"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <div 
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+            backgroundSize: '20px 20px'
+          }}
+        />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <motion.div className="text-center" variants={fadeInUp}>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">
+              Ready to Transform Your Healthcare Practice?
+            </h2>
+            <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+              Join thousands of healthcare providers who are already using GoGetWell.ai to grow their practice
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link to="/demo">
+                <motion.button
+                  className="bg-white text-[#00A7B3] px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Get Started Free
+                </motion.button>
+              </Link>
+              <Link to="/contact">
+                <motion.button
+                  className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/10 transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Schedule a Demo
+                </motion.button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </motion.section>
 
-      {/* Live Demo Section */}
-      <motion.section className="py-24 px-4 bg-white" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} custom={1}>
-        <h2 className="text-4xl font-bold text-center mb-8 text-cyan-700">See GoGetWell in Action</h2>
-        <div className="max-w-4xl mx-auto bg-cyan-50 rounded-2xl shadow-lg p-8 flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1">
-            <h3 className="text-2xl font-bold mb-2 text-cyan-700">Live Dashboard Preview</h3>
-            <p className="text-cyan-900 mb-4">Experience a sample of our AI-powered dashboard. Manage patient leads, view analytics, and interact with the AI agent—all in one place.</p>
-            <ul className="list-disc ml-6 text-cyan-700">
-              <li>Instant patient lead capture and follow-up</li>
-              <li>Real-time chat with AI agent</li>
-              <li>Analytics and conversion tracking</li>
-            </ul>
-          </div>
-          <div className="flex-1 flex justify-center">
-            <img src="https://cdn.jsdelivr.net/gh/saadeghi/files/dashboard-preview.svg" alt="Dashboard Preview" className="w-full max-w-md rounded-xl shadow border-2 border-cyan-200" />
-          </div>
-        </div>
-        <div className="text-center mt-8">
-          <a href="/demo" className="inline-block bg-cyan-700 text-white font-bold px-10 py-4 rounded-full shadow-lg hover:bg-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-300 transition text-lg">Try the Live Demo</a>
-        </div>
-      </motion.section>
-
-      {/* Contact Section */}
-      <motion.section className="py-24 px-4 bg-white" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} custom={1}>
-        <h2 className="text-4xl font-bold text-center mb-8 text-cyan-700">Let's get in touch!</h2>
-        <div className="max-w-2xl mx-auto text-center text-lg text-cyan-900 mb-8">Got questions about GoGetWell.AI? Our team is here to help. Contact us for quick and friendly support.</div>
-        <div className="max-w-2xl mx-auto grid md:grid-cols-2 gap-8 text-center">
-          <div>
-            <div className="font-bold text-cyan-700 mb-1">Phone</div>
-            <div className="text-cyan-900 mb-4">+91 9811396858</div>
-            <div className="font-bold text-cyan-700 mb-1">Email</div>
-            <div className="text-cyan-900">hello@gogetwell.ai</div>
-          </div>
-          <div>
-            <div className="font-bold text-cyan-700 mb-1">Social</div>
-            <div className="flex flex-col items-center gap-2">
-              <a href="https://x.com/gogetwellai" className="text-cyan-500 hover:underline" target="_blank" rel="noopener noreferrer">Twitter/X</a>
-              <a href="https://www.linkedin.com/company/gogetwellai/" className="text-cyan-700 hover:underline" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      {/* Trust Badges Section */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-cyan-700 mb-2">99.9%</div>
+              <p className="text-cyan-600">Uptime</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-cyan-700 mb-2">HIPAA</div>
+              <p className="text-cyan-600">Compliant</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-cyan-700 mb-2">24/7</div>
+              <p className="text-cyan-600">Support</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-cyan-700 mb-2">10K+</div>
+              <p className="text-cyan-600">Users</p>
             </div>
           </div>
         </div>
-      </motion.section>
-    </main>
+      </section>
+
+      {/* Chat Widget */}
+      <motion.div
+        className="fixed bottom-8 right-8 z-50"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 1 }}
+      >
+        <button
+          onClick={() => setShowChat(!showChat)}
+          className="bg-cyan-600 text-white p-4 rounded-full shadow-lg hover:bg-cyan-500 transition-colors duration-300 relative group"
+        >
+          {showChat ? (
+            <XMarkIcon className="h-6 w-6" />
+          ) : (
+            <>
+              <ChatBubbleLeftRightIcon className="h-6 w-6" />
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                1
+              </span>
+            </>
+          )}
+          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-black text-white text-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+            {showChat ? 'Close Chat' : 'Need Help?'}
+          </span>
+        </button>
+      </motion.div>
+
+      {/* Chat Window */}
+      <AnimatePresence>
+        {showChat && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-24 right-8 w-96 bg-white rounded-xl shadow-2xl z-40 overflow-hidden"
+          >
+            <div className="bg-gradient-to-r from-cyan-600 to-cyan-700 p-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                  <UserCircleIcon className="h-8 w-8 text-cyan-600" />
+                </div>
+                <div>
+                  <h3 className="text-white font-semibold">AI Support</h3>
+                  <p className="text-cyan-100 text-sm">Online</p>
+                </div>
+              </div>
+            </div>
+            <div className="h-96 p-4 overflow-y-auto">
+              <div className="space-y-4">
+                <div className="flex items-start space-x-2">
+                  <div className="bg-cyan-50 rounded-lg p-3 max-w-[80%]">
+                    <p className="text-cyan-900">Hello! How can I help you today?</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-4 border-t">
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  placeholder="Type your message..."
+                  className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                />
+                <button className="bg-cyan-600 text-white p-2 rounded-lg hover:bg-cyan-500 transition-colors">
+                  <PaperAirplaneIcon className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </PageLayout>
   );
 }
 
