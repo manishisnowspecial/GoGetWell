@@ -5,7 +5,6 @@ import PageLayout from '../components/PageLayout';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 import { 
   UserGroupIcon, 
-  BuildingOffice2Icon, 
   DocumentChartBarIcon, 
   ChatBubbleLeftRightIcon, 
   GlobeAltIcon,
@@ -13,20 +12,13 @@ import {
   ShieldCheckIcon,
   CheckCircleIcon,
   StarIcon,
-  CogIcon,
-  ClockIcon,
   ArrowRightIcon,
-  BeakerIcon,
-  BoltIcon,
-  SparklesIcon,
-  CloudArrowUpIcon,
-  LockClosedIcon,
-  ServerIcon,
-  FingerPrintIcon,
   ChevronDownIcon,
   XMarkIcon,
   UserCircleIcon,
-  PaperAirplaneIcon
+  PaperAirplaneIcon,
+  BoltIcon,
+  SparklesIcon
 } from '@heroicons/react/24/outline';
 
 // Enhanced image constants with more creative placeholders
@@ -65,28 +57,6 @@ const IMAGES = {
   }
 };
 
-// Enhanced statistics with animations
-const stats = [
-  { 
-    label: 'qualified doctors',
-    value: '2100+',
-    icon: <UserGroupIcon className="h-8 w-8 text-cyan-200" />,
-    description: 'Healthcare professionals using our platform'
-  },
-  { 
-    label: 'hospitals',
-    value: '1000+',
-    icon: <BuildingOffice2Icon className="h-8 w-8 text-cyan-200" />,
-    description: 'Partner institutions worldwide'
-  },
-  { 
-    label: 'AI Treatment Plans',
-    value: '800+',
-    icon: <BeakerIcon className="h-8 w-8 text-cyan-200" />,
-    description: 'Customized healthcare solutions'
-  },
-];
-
 // Enhanced features with more details and icons
 const features = [
   {
@@ -104,7 +74,7 @@ const features = [
   {
     title: 'Real-Time Query Handling',
     desc: 'Instant response system for patient inquiries with AI-powered chat support.',
-    icon: <BoltIcon className="h-10 w-10 text-cyan-500" />,
+    icon: <BoltIcon className="h-12 w-12 text-cyan-500" />,
     benefits: ['Instant Responses', 'Multi-language Support', 'Context-Aware AI']
   },
   {
@@ -264,35 +234,9 @@ const benefits = [
   }
 ];
 
-// Technology features
-const techFeatures = [
-  {
-    icon: <CloudArrowUpIcon className="h-6 w-6" />,
-    title: 'Cloud Infrastructure',
-    description: 'Secure, scalable, and always available'
-  },
-  {
-    icon: <LockClosedIcon className="h-6 w-6" />,
-    title: 'End-to-End Encryption',
-    description: 'Your data is always protected'
-  },
-  {
-    icon: <ServerIcon className="h-6 w-6" />,
-    title: 'High Performance',
-    description: 'Lightning-fast response times'
-  },
-  {
-    icon: <FingerPrintIcon className="h-6 w-6" />,
-    title: 'Advanced Security',
-    description: 'Multi-factor authentication'
-  }
-];
-
 function Home() {
   const [selectedFaq, setSelectedFaq] = useState(null);
   const [showChat, setShowChat] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
-  const [activeFaq, setActiveFaq] = useState(null);
 
   return (
     <PageLayout>
