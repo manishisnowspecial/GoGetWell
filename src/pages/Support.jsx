@@ -13,6 +13,8 @@ import {
   ArrowTrendingUpIcon,
   ChatBubbleBottomCenterTextIcon
 } from '@heroicons/react/24/outline';
+import challengesImage from '../images/challenges_solve-CteFwxY1.gif';
+import { FaEnvelope, FaPhone, FaLinkedin } from 'react-icons/fa';
 
 const features = [
   {
@@ -107,12 +109,42 @@ function Support() {
     {
       title: 'Efficient Operations',
       description: 'Streamlined booking and management',
-      icon: <ArrowTrendingUpIcon className="h-6 w-6 text-cyan-500" />
+      icon: <ArrowTrendingUpIcon className="h-6 w-6 text-cyan-500" />,
+      challenges: [
+        {
+          title: 'Manual Booking Process',
+          description: 'Eliminate time-consuming manual booking processes with automated scheduling and appointment management'
+        },
+        {
+          title: 'Patient Data Management',
+          description: 'Centralize patient information with secure, organized digital records and easy access'
+        },        
+        {
+          title: 'Document Management',
+          description: 'Digitize and organize medical records, reports, and documentation for easy access and compliance'
+        }
+      ]
     },
     {
       title: 'Enhanced Support',
       description: 'Improved patient communication',
-      icon: <ChatBubbleBottomCenterTextIcon className="h-6 w-6 text-cyan-500" />
+      icon: <ChatBubbleBottomCenterTextIcon className="h-6 w-6 text-cyan-500" />,
+      challenges: [
+        {
+          title: '24/7 Patient Support',
+          description: 'Provide round-the-clock assistance to patients through AI-powered chatbots and automated responses'
+        },
+          
+        {
+          title: 'Medical Information Access',
+          description: 'Enable patients to access their medical records, test results, and treatment plans securely'
+        },
+       
+        {
+          title: 'Emergency Support',
+          description: 'Provide immediate assistance and guidance during medical emergencies or urgent situations'
+        }
+      ]
     }
   ];
 
@@ -143,7 +175,7 @@ function Support() {
 
       {/* The Challenges We Solve Section */}
       <motion.section 
-        className="py-24 px-4 bg-white"
+        className="py-24 px-4 bg-gradient-to-br from-cyan-50 to-white"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
@@ -151,9 +183,15 @@ function Support() {
       >
         <div className="max-w-6xl mx-auto">
           <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <h2 className="text-3xl md:text-4xl font-bold text-cyan-700 mb-6">
-              The Challenges We Solve
-            </h2>
+            <div className="relative inline-block mb-8">
+              <h2 className="text-4xl md:text-5xl font-bold text-cyan-700 mb-4 relative z-10">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-cyan-800">
+                  The Challenges We Solve
+                </span>
+              </h2>
+              <div className="absolute -top-4 -left-4 w-24 h-24 bg-cyan-100 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-cyan-200 rounded-full opacity-50"></div>
+            </div>
             <div className="max-w-3xl mx-auto">
               <p className="text-lg text-cyan-900 mb-6 leading-relaxed">
                 Medical tourism, especially in India, is plagued by disorganization and inefficiency. Facilitators often rely on outdated methods, leading to delayed bookings, inadequate patient support, and missed growth opportunities.
@@ -165,43 +203,102 @@ function Support() {
           </motion.div>
 
           <motion.div 
-            className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+            className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto"
             variants={fadeInUp}
           >
-            {challengeSolutions.map((solution, index) => (
-              <motion.div
-                key={index}
-                className="bg-gradient-to-br from-cyan-50 to-white p-8 rounded-2xl shadow-lg"
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="bg-white p-3 rounded-full shadow-md">
-                    {solution.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-cyan-700">{solution.title}</h3>
-                    <p className="text-cyan-600">{solution.description}</p>
+            <motion.div
+              className="bg-gradient-to-br from-cyan-50 to-white rounded-2xl shadow-xl overflow-hidden relative group"
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Decorative Elements */}
+              <div className="absolute top-4 left-4 w-20 h-20 bg-cyan-200 rounded-full opacity-20 z-10"></div>
+              <div className="absolute bottom-4 right-4 w-32 h-32 bg-cyan-300 rounded-full opacity-20 z-10"></div>
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-yellow-200 rounded-full opacity-20 z-10"></div>
+              
+              {/* Main Content Container */}
+              <div className="relative z-20 p-8">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                  <h3 className="text-2xl font-bold text-cyan-800 mb-4">
+                    Healthcare Challenges We Address
+                  </h3>
+                  <div className="space-y-4 mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center">
+                        <ArrowTrendingUpIcon className="w-4 h-4 text-cyan-600" />
+                      </div>
+                      <p className="text-cyan-700">Streamlined Operations</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center">
+                        <ChatBubbleBottomCenterTextIcon className="w-4 h-4 text-cyan-600" />
+                      </div>
+                      <p className="text-cyan-700">Enhanced Communication</p>
+                    </div>
                   </div>
                 </div>
-                <div className="relative w-full">
+
+                {/* Image Container */}
+                <div className="mt-6 relative rounded-xl overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/30 to-transparent z-10"></div>
                   <img 
-                    src="/challenges_solve-CteFwxY1.gif" 
-                    alt={solution.title}
-                    className="w-full h-48 object-cover rounded-lg shadow-md"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.parentElement.classList.add('bg-cyan-50', 'h-48', 'rounded-lg', 'flex', 'items-center', 'justify-center');
-                      e.target.parentElement.innerHTML = `
-                        <div class="text-center p-6">
-                          <p class="text-cyan-700 font-medium">${solution.description}</p>
-                        </div>
-                      `;
-                    }}
+                    src={challengesImage}
+                    alt="Challenges We Solve"
+                    className="w-full h-64 object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
                   />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-cyan-900/80 to-transparent p-4 z-20">
+                    <p className="text-white text-sm">
+                      Transforming healthcare management with AI-powered solutions
+                    </p>
+                  </div>
                 </div>
-              </motion.div>
-            ))}
+
+                {/* Stats or Highlights */}
+                <div className="grid grid-cols-2 gap-4 mt-6">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+                    <p className="text-3xl font-bold text-cyan-600 mb-1">24/7</p>
+                    <p className="text-sm text-cyan-700">Patient Support</p>
+                  </div>
+                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+                    <p className="text-3xl font-bold text-cyan-600 mb-1">100%</p>
+                    <p className="text-sm text-cyan-700">Digital Solution</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="bg-gradient-to-br from-cyan-50 to-white p-8 rounded-2xl shadow-lg"
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="space-y-8">
+                {challengeSolutions.map((solution, index) => (
+                  <div key={index} className="flex items-start gap-4">
+                    <div className="bg-white p-4 rounded-full shadow-md">
+                      {solution.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-cyan-700 mb-2">{solution.title}</h3>
+                      <p className="text-cyan-600 mb-4">{solution.description}</p>
+                      {solution.challenges && (
+                        <ul className="space-y-3">
+                          {solution.challenges.map((challenge, idx) => (
+                            <li key={idx} className="flex items-start gap-2">
+                              <span className="text-cyan-500">•</span>
+                              <div>
+                                <h4 className="font-semibold text-cyan-800">{challenge.title}</h4>
+                                <p className="text-cyan-600 text-sm">{challenge.description}</p>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </motion.section>
@@ -285,6 +382,31 @@ function Support() {
               Still have questions? Contact Us
             </a>
           </motion.div>
+          <div className="mt-4 text-center">
+            <div className="flex items-center space-x-4">
+              <FaEnvelope className="w-6 h-6 text-cyan-600" />
+              <a href="mailto:hello@gogetwell.ai" className="text-cyan-700 hover:text-cyan-600 transition-colors">
+                hello@gogetwell.ai
+              </a>
+            </div>
+            <div className="flex items-center space-x-4">
+              <FaPhone className="w-6 h-6 text-cyan-600" />
+              <a href="tel:+919811396858" className="text-cyan-700 hover:text-cyan-600 transition-colors">
+                +91 9811396858
+              </a>
+            </div>
+            <div className="flex items-center space-x-4">
+              <FaLinkedin className="w-6 h-6 text-cyan-600" />
+              <a
+                href="https://www.linkedin.com/company/gogetwellai/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cyan-700 hover:text-cyan-600 transition-colors"
+              >
+                Connect with us on LinkedIn
+              </a>
+            </div>
+          </div>
         </div>
       </motion.section>
     </PageLayout>
