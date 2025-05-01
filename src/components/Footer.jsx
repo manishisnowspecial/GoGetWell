@@ -106,10 +106,7 @@ function Footer() {
                 <Link to="/editorial-policy" onClick={handleLinkClick} className="text-cyan-200 hover:text-white">Editorial Policy</Link>
               </li>
               <li>
-                <Link to="/faq" onClick={handleLinkClick} className="text-cyan-200 hover:text-white">FAQ</Link>
-              </li>
-              <li>
-                <Link to="/support" onClick={handleLinkClick} className="text-cyan-200 hover:text-white">Support</Link>
+                <Link to="/support" onClick={handleLinkClick} className="text-cyan-200 hover:text-white">FAQ</Link>
               </li>
             </ul>
           </div>
