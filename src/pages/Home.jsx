@@ -11,7 +11,7 @@ import {
   ChartBarIcon, 
   ShieldCheckIcon,
   CheckCircleIcon,
-  StarIcon,
+  StarIcon as StarOutline,
   ArrowRightIcon,
   ChevronDownIcon,
   XMarkIcon,
@@ -20,6 +20,9 @@ import {
   BoltIcon,
   SparklesIcon
 } from '@heroicons/react/24/outline';
+import { StarIcon } from '@heroicons/react/24/solid';
+import { scrollToTop } from '../utils/scrollUtils';
+import ScrollToTopLink from '../components/ScrollToTopLink';
 
 // Enhanced image constants with more creative placeholders
 const IMAGES = {
@@ -238,6 +241,10 @@ function Home() {
   const [selectedFaq, setSelectedFaq] = useState(null);
   const [showChat, setShowChat] = useState(false);
 
+  const handleClick = () => {
+    scrollToTop();
+  };
+
   return (
     <PageLayout>
       {/* Hero Section */}
@@ -274,7 +281,7 @@ function Home() {
               >
                 Boost Patients Conversion and Earn While Sleeping
               </motion.p>
-              <Link to="/demo">
+              <Link to="/demo" onClick={handleClick}>
                 <motion.button 
                   className="bg-[#00D1E0] text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-[#00bfcc] transition-colors"
                   variants={fadeInUp}
@@ -322,18 +329,6 @@ function Home() {
         </div>
       </motion.section>
 
-      {/* Social Proof Section */}
-      <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
-            <img src="https://placehold.co/200x80/ffffff/333333?text=Partner+1" alt="Partner 1" className="h-12 object-contain" />
-            <img src="https://placehold.co/200x80/ffffff/333333?text=Partner+2" alt="Partner 2" className="h-12 object-contain" />
-            <img src="https://placehold.co/200x80/ffffff/333333?text=Partner+3" alt="Partner 3" className="h-12 object-contain" />
-            <img src="https://placehold.co/200x80/ffffff/333333?text=Partner+4" alt="Partner 4" className="h-12 object-contain" />
-          </div>
-        </div>
-      </section>
-
       {/* Features Section with Comprehensive Solutions */}
       <motion.section 
         className="py-20 bg-gradient-to-br from-cyan-50 via-white to-cyan-50 relative overflow-hidden"
@@ -359,7 +354,7 @@ function Home() {
         />
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <span className="text-cyan-600 font-semibold text-sm tracking-wider uppercase mb-2 block">Why Choose Us</span>
+            <span className="text-cyan-600 font-semibold text-lg uppercase mb-4 block tracking-widest">Why Choose Us</span>
             <h2 className="text-4xl md:text-5xl font-bold text-cyan-900 mb-6">
               Our Comprehensive Solutions
             </h2>
@@ -376,15 +371,17 @@ function Home() {
                 variants={fadeInUp}
                 whileHover={{ y: -10 }}
               >
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-40 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-cyan-900/50 group-hover:opacity-75 transition-opacity duration-300 z-10"></div>
                   <img
                     src={IMAGES.features[['ai', 'growth', 'operations', 'security', 'support', 'global'][index]]}
                     alt={feature.title}
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                   />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg z-20">
-                    {feature.icon}
+                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg z-20">
+                    {React.cloneElement(feature.icon, {
+                      className: "h-6 w-6 text-cyan-500"
+                    })}
                   </div>
                 </div>
                 <div className="p-8">
@@ -400,7 +397,7 @@ function Home() {
                   </ul>
                 </div>
                 <div className="px-8 pb-6">
-                  <Link to={`/features/${index + 1}`}>
+                  <Link to={`/features/${index + 1}`} onClick={handleClick}>
                     <motion.button
                       className="text-cyan-600 font-semibold inline-flex items-center group/btn"
                       whileHover={{ x: 5 }}
@@ -415,39 +412,6 @@ function Home() {
           </div>
         </div>
       </motion.section>
-
-      {/* Integration Section - Redesigned */}
-      <section className="py-20 bg-gradient-to-br from-cyan-50 via-white to-cyan-100 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400/30 via-cyan-200/10 to-cyan-400/30"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-cyan-900 mb-4 drop-shadow-sm">
-              Seamless Integration with Your Existing Tools
-            </h2>
-            <p className="text-xl text-cyan-600 max-w-3xl mx-auto">
-              Connect with your favorite healthcare and business tools
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-              <div
-                key={item}
-                className="flex flex-col items-center p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group border border-cyan-100 hover:border-cyan-300 cursor-pointer"
-              >
-                <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-gradient-to-br from-cyan-100 to-cyan-200 group-hover:from-cyan-200 group-hover:to-cyan-300 shadow-inner transition-all duration-300">
-                  <img
-                    src={`https://placehold.co/48x48/bae6fd/0891b2?text=T${item}`}
-                    alt={`Integration ${item}`}
-                    className="w-10 h-10 object-contain"
-                  />
-                </div>
-                <h3 className="text-cyan-900 font-bold text-lg mb-1 group-hover:text-cyan-700 transition-all duration-200">Integration {item}</h3>
-                <span className="text-cyan-400 text-xs tracking-wide">Connect & Automate</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* New AI-Powered Website Section */}
       <section className="relative py-28 overflow-hidden">
@@ -468,7 +432,7 @@ function Home() {
               <p className="text-2xl text-white/90 mb-12">
                 Use power AI to transform your online presence and automate patient interactions
               </p>
-              <Link to="/demo">
+              <Link to="/demo" onClick={handleClick}>
                 <motion.button
                   className="bg-[#00D1E0] hover:bg-[#00bfcc] text-white px-10 py-5 rounded-full text-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
                   whileHover={{ scale: 1.05 }}
@@ -529,7 +493,9 @@ function Home() {
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  {benefit.icon}
+                  {React.cloneElement(benefit.icon, {
+                    className: "h-16 w-16 sm:h-14 sm:w-14 md:h-12 md:w-12 lg:h-10 lg:w-10 text-cyan-500"
+                  })}
                 </motion.div>
                 <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
                 <p className="text-cyan-100">{benefit.description}</p>
@@ -648,16 +614,65 @@ function Home() {
                     </li>
                   ))}
                 </ul>
-                <button className={`w-full py-3 rounded-full font-bold transition ${
-                  plan.popular
-                    ? 'bg-cyan-600 text-white hover:bg-cyan-500'
-                    : 'bg-cyan-100 text-cyan-700 hover:bg-cyan-200'
-                }`}>
-                  Get Started
-                </button>
+                <ScrollToTopLink to="/demo">
+                  <button className={`w-full py-3 rounded-full font-bold transition ${
+                    plan.popular
+                      ? 'bg-cyan-600 text-white hover:bg-cyan-500'
+                      : 'bg-cyan-100 text-cyan-700 hover:bg-cyan-200'
+                  }`}>
+                    Get Started
+                  </button>
+                </ScrollToTopLink>
               </motion.div>
             ))}
           </div>
+        </div>
+      </motion.section>
+
+      {/* Final CTA Section */}
+      <motion.section 
+        className="py-24 bg-gradient-to-br from-[#00A7B3] to-[#00D1E0] text-white relative overflow-hidden"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <div 
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+            backgroundSize: '20px 20px'
+          }}
+        />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <motion.div className="text-center" variants={fadeInUp}>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">
+              Ready to Transform Your Healthcare Practice?
+            </h2>
+            <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+              Join thousands of healthcare providers who are already using GoGetWell.ai to grow their practice
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <ScrollToTopLink to="/demo">
+                <motion.button
+                  className="bg-white text-[#00A7B3] px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Get Started Free
+                </motion.button>
+              </ScrollToTopLink>
+              <ScrollToTopLink to="/contact">
+                <motion.button
+                  className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/10 transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Schedule a Demo
+                </motion.button>
+              </ScrollToTopLink>
+            </div>
+          </motion.div>
         </div>
       </motion.section>
 
@@ -686,7 +701,7 @@ function Home() {
         />
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <span className="text-cyan-600 font-semibold text-sm tracking-wider uppercase mb-2 block">FAQ</span>
+            <span className="text-cyan-600 font-semibold text-2xl tracking-wider uppercase mb-4 block">FAQ</span>
             <h2 className="text-4xl md:text-5xl font-bold text-cyan-900 mb-6">
               Frequently Asked Questions
             </h2>
@@ -732,77 +747,6 @@ function Home() {
           </div>
         </div>
       </motion.section>
-
-      {/* Final CTA Section */}
-      <motion.section 
-        className="py-24 bg-gradient-to-br from-[#00A7B3] to-[#00D1E0] text-white relative overflow-hidden"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        <div 
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-            backgroundSize: '20px 20px'
-          }}
-        />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div className="text-center" variants={fadeInUp}>
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">
-              Ready to Transform Your Healthcare Practice?
-            </h2>
-            <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
-              Join thousands of healthcare providers who are already using GoGetWell.ai to grow their practice
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link to="/demo">
-                <motion.button
-                  className="bg-white text-[#00A7B3] px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Get Started Free
-                </motion.button>
-              </Link>
-              <Link to="/contact">
-                <motion.button
-                  className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/10 transition-all duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Schedule a Demo
-                </motion.button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      {/* Trust Badges Section */}
-      <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-cyan-700 mb-2">99.9%</div>
-              <p className="text-cyan-600">Uptime</p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-cyan-700 mb-2">HIPAA</div>
-              <p className="text-cyan-600">Compliant</p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-cyan-700 mb-2">24/7</div>
-              <p className="text-cyan-600">Support</p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-cyan-700 mb-2">10K+</div>
-              <p className="text-cyan-600">Users</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Chat Widget */}
       <motion.div

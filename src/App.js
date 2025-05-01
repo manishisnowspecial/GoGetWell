@@ -1,7 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import ChatPanel from './components/ChatPanel';
 import Home from './pages/Home';
 import Features from './pages/Features';
@@ -19,54 +18,55 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Demo from './pages/Demo';
 import Login from './pages/Login';
+import FeaturesPage from './pages/FeaturesPage';
 import React, { useEffect } from 'react';
 
 function App() {
   useEffect(() => {
     // Only enable on desktop
     if (window.innerWidth < 768) return;
-    document.body.classList.add('custom-cursor-enabled');
-    // Create cursor elements
+
     const dot = document.createElement('div');
-    dot.className = 'cursor-dot';
     const outline = document.createElement('div');
+    
+    dot.className = 'cursor-dot';
     outline.className = 'cursor-outline';
+    
     document.body.appendChild(dot);
     document.body.appendChild(outline);
-    let mouseX = 0, mouseY = 0;
-    let outlineX = 0, outlineY = 0;
+    document.body.classList.add('custom-cursor-enabled');
+
     const move = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.left = mouseX + 'px';
-      dot.style.top = mouseY + 'px';
+      const x = e.clientX;
+      const y = e.clientY;
+      
+      dot.style.left = `${x}px`;
+      dot.style.top = `${y}px`;
+      
+      outline.style.left = `${x}px`;
+      outline.style.top = `${y}px`;
     };
-    const animate = () => {
-      outlineX += (mouseX - outlineX) * 0.18;
-      outlineY += (mouseY - outlineY) * 0.18;
-      outline.style.left = outlineX + 'px';
-      outline.style.top = outlineY + 'px';
-      requestAnimationFrame(animate);
+
+    const addHover = () => {
+      document.body.classList.add('cursor-hover');
     };
-    animate();
-    window.addEventListener('mousemove', move);
-    // Hover effect
-    const addHover = (e) => {
-      if (e.target.closest('a,button,input,textarea,select,label,[role="button"]')) {
-        document.body.classList.add('cursor-hover');
-      }
-    };
-    const removeHover = (e) => {
+
+    const removeHover = () => {
       document.body.classList.remove('cursor-hover');
     };
-    window.addEventListener('mouseover', addHover);
-    window.addEventListener('mouseout', removeHover);
-    // Click effect
+
     const click = () => {
       document.body.classList.add('cursor-click');
-      setTimeout(() => document.body.classList.remove('cursor-click'), 150);
+      setTimeout(() => {
+        document.body.classList.remove('cursor-click');
+      }, 200);
     };
-    window.addEventListener('mousedown', click);
+
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseover', addHover);
+    document.addEventListener('mouseout', removeHover);
+    document.addEventListener('mousedown', click);
+
     // Cleanup
     return () => {
       document.body.classList.remove('custom-cursor-enabled', 'cursor-hover', 'cursor-click');
@@ -86,6 +86,7 @@ function App() {
         <div className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/features" element={<FeaturesPage />} />
             <Route path="/features/:id" element={<Features />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/about" element={<About />} />
@@ -103,7 +104,6 @@ function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
         </div>
-        <Footer />
         <ChatPanel />
       </div>
     </Router>

@@ -28,9 +28,25 @@ function Footer() {
         <div className="md:col-span-1 flex flex-col gap-4">
           <div className="text-2xl font-extrabold tracking-tight mb-2">GoGetWell.AI</div>
           <div className="text-cyan-100 text-sm mb-2">Empowering healthcare facilitators with AI-driven tools for growth, efficiency, and patient care.</div>
-          <div className="flex gap-4 mt-2">
-            <a href="https://twitter.com/gogetwellai" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-300 text-2xl" aria-label="Twitter"><FaTwitter /></a>
-            <a href="https://linkedin.com/company/gogetwellai" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-300 text-2xl" aria-label="LinkedIn"><FaLinkedin /></a>
+          <div className="flex space-x-4">
+            <a 
+              href="https://x.com/gogetwellai" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-cyan-300 text-2xl" 
+              aria-label="Twitter"
+            >
+              <FaTwitter />
+            </a>
+            <a 
+              href="https://www.linkedin.com/company/gogetwellai/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-cyan-300 text-2xl" 
+              aria-label="LinkedIn"
+            >
+              <FaLinkedin />
+            </a>
           </div>
         </div>
         <div className="md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-6">

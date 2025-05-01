@@ -1,220 +1,404 @@
-import React, { useState } from 'react';
-import Lottie from 'lottie-react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { FaCalendarAlt, FaClock, FaBuilding, FaUser, FaEnvelope, FaPhone, FaGlobe } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-// Healthcare animation data
-const healthcareAnimation = {
-  v: "5.7.14",
-  fr: 60,
-  ip: 0,
-  op: 180,
-  w: 512,
-  h: 512,
-  nm: "Healthcare",
-  ddd: 0,
-  assets: [],
-  layers: [
-    {
-      ty: 4,
-      nm: "Heart",
-      sr: 1,
-      ks: {
-        o: { a: 0, k: 100 },
-        p: { a: 0, k: [256, 256] },
-        a: { a: 0, k: [0, 0, 0] },
-        s: {
-          a: 1,
-          k: [
-            {
-              t: 0,
-              s: [100, 100],
-              e: [110, 110]
-            },
-            {
-              t: 90,
-              s: [110, 110],
-              e: [100, 100]
-            },
-            {
-              t: 180,
-              s: [100, 100]
-            }
-          ]
-        }
-      },
-      shapes: [
-        {
-          ty: "gr",
-          it: [
-            {
-              ty: "rc",
-              d: 1,
-              s: { a: 0, k: [100, 100] },
-              p: { a: 0, k: [0, 0] },
-              r: { a: 0, k: 20 }
-            },
-            {
-              ty: "fl",
-              c: { a: 0, k: [0.125, 0.553, 0.553] }
-            }
-          ]
-        }
-      ],
-      op: 180
-    },
-    {
-      ty: 4,
-      nm: "Cross",
-      sr: 1,
-      ks: {
-        o: { a: 0, k: 100 },
-        p: { a: 0, k: [256, 256] },
-        a: { a: 0, k: [0, 0, 0] },
-        s: {
-          a: 1,
-          k: [
-            {
-              t: 0,
-              s: [0, 0],
-              e: [100, 100]
-            },
-            {
-              t: 30,
-              s: [100, 100]
-            }
-          ]
-        }
-      },
-      shapes: [
-        {
-          ty: "gr",
-          it: [
-            {
-              ty: "rc",
-              d: 1,
-              s: { a: 0, k: [20, 80] },
-              p: { a: 0, k: [0, 0] },
-              r: { a: 0, k: 5 }
-            },
-            {
-              ty: "rc",
-              d: 1,
-              s: { a: 0, k: [80, 20] },
-              p: { a: 0, k: [0, 0] },
-              r: { a: 0, k: 5 }
-            },
-            {
-              ty: "fl",
-              c: { a: 0, k: [1, 1, 1] }
-            }
-          ]
-        }
-      ],
-      op: 180
-    }
-  ]
-};
-
-function Demo() {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
-  const [animationError, setAnimationError] = useState(false);
+const Demo = () => {
   const navigate = useNavigate();
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    companyName: '',
+    fullName: '',
+    email: '',
+    phone: '',
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    preferredDate: '',
+    preferredTime: '',
+  });
 
-  const handleSubmit = async (e) => {
+  const [formErrors, setFormErrors] = useState({});
+
+  useEffect(() => {
+    // Reset form errors when step changes
+    setFormErrors({});
+  }, [step]);
+
+  const validateForm = () => {
+    const errors = {};
+    if (step === 1) {
+      if (!formData.companyName.trim()) errors.companyName = 'Company name is required';
+      if (!formData.fullName.trim()) errors.fullName = 'Full name is required';
+      if (!formData.email.trim()) {
+        errors.email = 'Email is required';
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        errors.email = 'Email is invalid';
+      }
+      if (!formData.phone.trim()) {
+        errors.phone = 'Phone number is required';
+      } else if (!/^\+?[\d\s-()]+$/.test(formData.phone)) {
+        errors.phone = 'Phone number is invalid';
+      }
+    } else {
+      if (!formData.preferredDate) errors.preferredDate = 'Date is required';
+      if (!formData.preferredTime) errors.preferredTime = 'Time is required';
+    }
+    return errors;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    // Clear error when user starts typing
+    if (formErrors[name]) {
+      setFormErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setError('');
-    
-    try {
-      // Here you would typically make an API call to your backend
-      // For now, we'll simulate a successful submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      navigate('/dashboard', { state: { email } });
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      toast.error('Please fill in all required fields correctly');
+      return;
+    }
+
+    if (step === 1) {
+      setStep(2);
+    } else {
+      // Here you would typically send the data to your backend
+      console.log('Form submitted:', formData);
+      toast.success('Demo scheduled successfully! We will contact you shortly.');
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 }
     }
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-br from-cyan-50 to-white px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-sm sm:max-w-md bg-white rounded-2xl shadow-lg p-6 sm:p-8 flex flex-col items-center">
-        <div className="w-full max-w-[280px] sm:max-w-xs mb-4 sm:mb-6">
-          {!animationError ? (
-            <Lottie
-              onError={() => setAnimationError(true)}
-              animationData={healthcareAnimation}
-              loop
-              autoplay
-              style={{ height: '160px', width: '100%' }}
-              aria-label="Healthcare AI Animation"
-              rendererSettings={{ preserveAspectRatio: 'xMidYMid slice' }}
-            />
-          ) : (
-            <div className="h-[160px] w-full flex items-center justify-center bg-cyan-50 rounded-lg">
-              <svg className="w-16 h-16 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.5 12.5l6 6 9-13.5" />
-              </svg>
+    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-cyan-50 py-12 px-4 sm:px-6 lg:px-8 pt-24">
+      <ToastContainer position="top-right" autoClose={3000} />
+      <motion.div
+        className="max-w-7xl mx-auto"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div variants={itemVariants} className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-cyan-900 mb-4">
+            Schedule a Demo
+          </h1>
+          <p className="text-xl text-cyan-600">
+            See how GoGetWell can transform your healthcare practice
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={itemVariants}
+          className="bg-white rounded-2xl shadow-xl overflow-hidden"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            {/* Left Column - Form */}
+            <div className="p-8">
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`flex items-center ${step >= 1 ? 'text-cyan-600' : 'text-gray-400'}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-cyan-600 text-white' : 'bg-gray-200'}`}>
+                      1
+                    </div>
+                    <span className="ml-2">Your Information</span>
+                  </div>
+                  <div className={`flex items-center ${step >= 2 ? 'text-cyan-600' : 'text-gray-400'}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-cyan-600 text-white' : 'bg-gray-200'}`}>
+                      2
+                    </div>
+                    <span className="ml-2">Schedule</span>
+                  </div>
+                </div>
+                <div className="w-full bg-gray-200 h-1 rounded-full">
+                  <div
+                    className="bg-cyan-600 h-1 rounded-full transition-all duration-500"
+                    style={{ width: `${(step / 2) * 100}%` }}
+                  />
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {step === 1 ? (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-cyan-700 mb-1">
+                        Company Name
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FaBuilding className="text-cyan-400" />
+                        </div>
+                        <input
+                          type="text"
+                          name="companyName"
+                          value={formData.companyName}
+                          onChange={handleChange}
+                          required
+                          className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-cyan-500 focus:border-cyan-500 ${
+                            formErrors.companyName ? 'border-red-500' : 'border-cyan-200'
+                          }`}
+                          placeholder="Enter your company name"
+                        />
+                      </div>
+                      {formErrors.companyName && (
+                        <p className="mt-1 text-sm text-red-500">{formErrors.companyName}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-cyan-700 mb-1">
+                        Full Name
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FaUser className="text-cyan-400" />
+                        </div>
+                        <input
+                          type="text"
+                          name="fullName"
+                          value={formData.fullName}
+                          onChange={handleChange}
+                          required
+                          className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-cyan-500 focus:border-cyan-500 ${
+                            formErrors.fullName ? 'border-red-500' : 'border-cyan-200'
+                          }`}
+                          placeholder="Enter your full name"
+                        />
+                      </div>
+                      {formErrors.fullName && (
+                        <p className="mt-1 text-sm text-red-500">{formErrors.fullName}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-cyan-700 mb-1">
+                        Email
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FaEnvelope className="text-cyan-400" />
+                        </div>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-cyan-500 focus:border-cyan-500 ${
+                            formErrors.email ? 'border-red-500' : 'border-cyan-200'
+                          }`}
+                          placeholder="Enter your email"
+                        />
+                      </div>
+                      {formErrors.email && (
+                        <p className="mt-1 text-sm text-red-500">{formErrors.email}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-cyan-700 mb-1">
+                        Phone
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FaPhone className="text-cyan-400" />
+                        </div>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          required
+                          className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-cyan-500 focus:border-cyan-500 ${
+                            formErrors.phone ? 'border-red-500' : 'border-cyan-200'
+                          }`}
+                          placeholder="Enter your phone number"
+                        />
+                      </div>
+                      {formErrors.phone && (
+                        <p className="mt-1 text-sm text-red-500">{formErrors.phone}</p>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-cyan-700 mb-1">
+                        Timezone
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FaGlobe className="text-cyan-400" />
+                        </div>
+                        <select
+                          name="timezone"
+                          value={formData.timezone}
+                          onChange={handleChange}
+                          className="block w-full pl-10 pr-3 py-2 border border-cyan-200 rounded-lg focus:ring-cyan-500 focus:border-cyan-500"
+                        >
+                          <option value={formData.timezone}>{formData.timezone}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-cyan-700 mb-1">
+                        Preferred Date
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FaCalendarAlt className="text-cyan-400" />
+                        </div>
+                        <input
+                          type="date"
+                          name="preferredDate"
+                          value={formData.preferredDate}
+                          onChange={handleChange}
+                          required
+                          min={new Date().toISOString().split('T')[0]}
+                          className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-cyan-500 focus:border-cyan-500 ${
+                            formErrors.preferredDate ? 'border-red-500' : 'border-cyan-200'
+                          }`}
+                        />
+                      </div>
+                      {formErrors.preferredDate && (
+                        <p className="mt-1 text-sm text-red-500">{formErrors.preferredDate}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-cyan-700 mb-1">
+                        Preferred Time
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FaClock className="text-cyan-400" />
+                        </div>
+                        <input
+                          type="time"
+                          name="preferredTime"
+                          value={formData.preferredTime}
+                          onChange={handleChange}
+                          required
+                          className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-cyan-500 focus:border-cyan-500 ${
+                            formErrors.preferredTime ? 'border-red-500' : 'border-cyan-200'
+                          }`}
+                        />
+                      </div>
+                      {formErrors.preferredTime && (
+                        <p className="mt-1 text-sm text-red-500">{formErrors.preferredTime}</p>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                <div className="flex justify-between pt-4">
+                  {step > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => setStep(1)}
+                      className="px-6 py-2 border border-cyan-200 rounded-lg text-cyan-700 hover:bg-cyan-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                    >
+                      Back
+                    </button>
+                  )}
+                  <button
+                    type="submit"
+                    className="ml-auto px-6 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                  >
+                    {step === 1 ? 'Next' : 'Schedule Demo'}
+                  </button>
+                </div>
+              </form>
             </div>
-          )}
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-cyan-700 mb-2 sm:mb-4 text-center">Get Started with GoGetWell</h2>
-        <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6 text-center">Experience the future of healthcare management. Join thousands of satisfied users today!</p>
-        
-        <form onSubmit={handleSubmit} className="w-full space-y-3 sm:space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-sm sm:text-base"
-              placeholder="you@example.com"
-              required
-            />
+
+            {/* Right Column - Info */}
+            <div className="bg-gradient-to-br from-cyan-600 to-cyan-800 p-8 text-white">
+              <h2 className="text-2xl font-bold mb-6">What to Expect</h2>
+              <ul className="space-y-4">
+                <li className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <svg className="h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="ml-3">30-minute personalized demo</span>
+                </li>
+                <li className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <svg className="h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="ml-3">Live product walkthrough</span>
+                </li>
+                <li className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <svg className="h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="ml-3">Q&A session with our experts</span>
+                </li>
+                <li className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <svg className="h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="ml-3">Customized solution for your practice</span>
+                </li>
+              </ul>
+
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold mb-4">Need help?</h3>
+                <p className="text-cyan-100">
+                  Contact our sales team at{' '}
+                  <a href="mailto:hello@gogetwell.ai" className="underline hover:text-white">
+                    hello@gogetwell.ai
+                  </a>
+                </p>
+              </div>
+            </div>
           </div>
-          
-          {error && <div className="text-red-500 text-xs sm:text-sm text-center">{error}</div>}
-          
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-cyan-600 to-cyan-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:from-cyan-700 hover:to-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
-          >
-            {isSubmitting ? 'Processing...' : 'Start Free Trial'}
-          </button>
-          
-          <div className="relative my-4 sm:my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-xs sm:text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with</span>
-            </div>
-          </div>
-          
-          <button
-            type="button"
-            className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 font-semibold py-2 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-all text-sm sm:text-base"
-          >
-            <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 48 48"><g><path fill="#4285F4" d="M44.5 20H24v8.5h11.7C34.7 33.9 29.9 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 6 .9 8.3 2.7l6.2-6.2C34.2 4.5 29.4 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.5 20-21 0-1.3-.1-2.7-.3-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15.5 16.1 19.4 13 24 13c3.1 0 6 .9 8.3 2.7l6.2-6.2C34.2 4.5 29.4 3 24 3c-7.2 0-13 5.8-13 13 0 2.1.5 4.1 1.3 5.7z"/><path fill="#FBBC05" d="M24 44c5.9 0 10.7-1.9 14.3-5.1l-6.6-5.4C29.7 35.5 27 36.5 24 36.5c-5.9 0-10.7-3.9-12.4-9.1l-7 5.4C7.5 41.5 15.1 44 24 44z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.7C34.7 33.9 29.9 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 6 .9 8.3 2.7l6.2-6.2C34.2 4.5 29.4 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.5 20-21 0-1.3-.1-2.7-.3-4z"/></g></svg>
-            Sign up with Google
-          </button>
-        </form>
-        
-        <p className="text-center mt-4 text-xs sm:text-sm text-gray-600">
-          By signing up, you agree to our{' '}
-          <a href="/terms" className="text-cyan-600 hover:text-cyan-700">Terms of Service</a>
-          {' '}and{' '}
-          <a href="/privacy" className="text-cyan-600 hover:text-cyan-700">Privacy Policy</a>
-        </p>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
-}
+};
 
 export default Demo; 
